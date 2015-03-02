@@ -8,10 +8,10 @@ import processing.core.*;
  */
 public class SampleSketch extends PApplet {
 
-//    float posX = 200;
-//    float posY = 200;
     Particle x;
     Particle z;
+
+    int time = 0;
 
     @Override
     public void setup() {
@@ -44,6 +44,9 @@ public class SampleSketch extends PApplet {
         fill(255, 0, 0);
         ellipse(x.getxCoord(), x.getyCoord(), x.getWidth(), x.getHeight());
         ellipse(z.getxCoord(), z.getyCoord(), z.getWidth(), z.getHeight());
+
+        // Increment time. (Tilsvarer tidssteg).
+        time++;
     }
 
 }
