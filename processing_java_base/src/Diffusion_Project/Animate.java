@@ -2,18 +2,18 @@ package Diffusion_Project;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import processing.core.PApplet;
 
 /**
  * @author nikla_000
  */
-public class Animate extends PApplet implements ActionListener {
+public class Animate extends PApplet implements ActionListener, ChangeListener {
 
     Particle particle1;
 
@@ -22,6 +22,8 @@ public class Animate extends PApplet implements ActionListener {
 
     int time = 0;
 
+    JSlider sliderSource;
+    
     @Override
     public void setup()
     {
@@ -49,10 +51,10 @@ public class Animate extends PApplet implements ActionListener {
         drawXCoordAndYCoord();
 
         // Bevegelse av en partikkel i 1D
-        animateOneParticleIn1D( particle1 );
+        //animateOneParticleIn1D( particle1 );
 
         // Bevegelse av en partikkel i 2D
-        //animatePluralParticlesIn2D (particles);
+        animatePluralParticlesIn2D (particles);
 
         // Bevegelse av mange partikler i 2D
         //animatePluralParticlesIn2D( particles );
@@ -138,6 +140,33 @@ public class Animate extends PApplet implements ActionListener {
     }
 
 
+
+    private void custom() {
+        JPanel panel = new JPanel();
+        JTextField field = new JTextField(4) {
+            public void addNotify() {
+                super.addNotify();
+                requestFocus();
+            }
+        };
+        panel.add(new JLabel("Number of new particles:"));
+        panel.add(field);
+        
+        int result = JOptionPane.showConfirmDialog(null, panel, "Please enter a number", JOptionPane.OK_CANCEL_OPTION);
+        field.requestFocusInWindow();
+        
+        try {
+            addParticles(Integer.parseInt(field.getText()));
+        } catch(NumberFormatException ne) {
+            System.out.println("Error: " + ne);
+        }
+    }
+    
+    private void reset() {
+        particles.clear();
+        sliderSource.setValue(10);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -151,20 +180,16 @@ public class Animate extends PApplet implements ActionListener {
                 break;
             case "custom":
                 custom();
+                break;
+            case "reset":
+                reset();
+                break;
         }
     }
-
-    private void custom() {
-        JPanel panel = new JPanel();
-        JTextField field = new JTextField(4);
-        panel.add(new JLabel("Number of new particles:"));
-        panel.add(field);
-        int result = JOptionPane.showConfirmDialog(null, panel, "Please enter a number", JOptionPane.OK_CANCEL_OPTION);
-        
-        try {
-            addParticles(Integer.parseInt(field.getText()));
-        } catch(NumberFormatException ne) {
-            
-        }
+    
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        sliderSource = (JSlider) e.getSource();
+        frameRate(sliderSource.getValue());        
     }
 }
