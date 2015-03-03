@@ -12,7 +12,10 @@ import javax.swing.*;
 /**
  * @author nikla_000
  */
-public class DisplayFrame extends JFrame implements ActionListener{
+
+public class DisplayFrame extends JFrame
+{
+
 
     private Animate animate;
 
@@ -25,7 +28,6 @@ public class DisplayFrame extends JFrame implements ActionListener{
         this.setSize(1200, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
         panel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
@@ -38,37 +40,34 @@ public class DisplayFrame extends JFrame implements ActionListener{
         this.add(stopButton);
         this.add(button);
 
+
         fixLayout();
         actionListeners();
 
         animate.init();
 
-        this.setVisible(true);
+        this.setVisible( true );
     }
     
-    private void fixLayout(){
-        setLayout(null);
-        
+    private void fixLayout()
+    {
+        setLayout( null );
+
         panel.setBounds(20, 20, 400, 400);
         startButton.setBounds(450, 20, 100, 30);
         stopButton.setBounds(570, 20, 100, 30);
         button.setBounds(450, 70, 150, 30);
+
         
     }
     
-    private void actionListeners() {
+    private void actionListeners()
+    {
         startButton.addActionListener( animate );
-        startButton.setActionCommand("run");
+        startButton.setActionCommand( "run" );
         
         stopButton.addActionListener( animate );
-        stopButton.setActionCommand("stop");
-        
-        button.addActionListener(animate);
-        button.setActionCommand("custom");
-    }
+        stopButton.setActionCommand( "stop" );
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        
     }
 }
