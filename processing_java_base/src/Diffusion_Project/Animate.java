@@ -3,14 +3,12 @@ package Diffusion_Project;
 import processing.core.PApplet;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @author nikla_000
@@ -50,7 +48,6 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     }
 
     @Override
-
     public void draw()
     {
         background( 255 );
@@ -66,7 +63,12 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
         //System.out.println ("Time = " + time + " Steps");
         statistics.setParticle( particle1 );
 
-        System.out.println(statistics.getNumberOfStepIn1D());
+        System.out.println( statistics.getNumberOfStepIn1D() );
+    }
+
+    public int getTime()
+    {
+        return time;
     }
     
     public void animate(int dimensions) {
