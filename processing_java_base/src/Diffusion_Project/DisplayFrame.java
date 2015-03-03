@@ -24,7 +24,8 @@ public class DisplayFrame extends JFrame implements ActionListener{
     public DisplayFrame() {
         this.setSize(1200, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        setLocationRelativeTo(null);
+        
         panel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");

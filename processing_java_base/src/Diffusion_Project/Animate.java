@@ -1,14 +1,14 @@
 package Diffusion_Project;
 
-import processing.core.PApplet;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import processing.core.PApplet;
 
 /**
  * @author nikla_000
@@ -19,6 +19,7 @@ public class Animate extends PApplet implements ActionListener {
     Particle particle2;
 
     ArrayList<Particle> particles;
+    Random rand = new Random();
 
     int time = 0;
 
@@ -64,7 +65,7 @@ public class Animate extends PApplet implements ActionListener {
     void animateOneParticle(Particle p) {
         fill(255, 0, 0);
         ellipse(p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight());
-        p.move2D(random(2) - 1, random(2) - 1);
+        p.move2D(rand.nextInt(3) - 1, rand.nextInt(3) - 1);
     }
 
     /**
@@ -75,7 +76,7 @@ public class Animate extends PApplet implements ActionListener {
             noStroke();
             fill(255, 0, 0);
             ellipse(p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight());
-            p.move2D(random(2) - 1, random(2) - 1);
+            p.move2D(rand.nextInt(3) - 1, rand.nextInt(3) - 1);
         }
     }
 
@@ -130,6 +131,11 @@ public class Animate extends PApplet implements ActionListener {
         panel.add(new JLabel("Number of new particles:"));
         panel.add(field);
         int result = JOptionPane.showConfirmDialog(null, panel, "Please enter a number", JOptionPane.OK_CANCEL_OPTION);
-        addParticles(Integer.parseInt(field.getText()));
+        
+        try {
+            addParticles(Integer.parseInt(field.getText()));
+        } catch(NumberFormatException ne) {
+            
+        }
     }
 }
