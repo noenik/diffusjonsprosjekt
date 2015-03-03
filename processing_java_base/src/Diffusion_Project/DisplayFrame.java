@@ -5,8 +5,6 @@
  */
 package Diffusion_Project;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -68,6 +66,9 @@ public class DisplayFrame extends JFrame
         
         stopButton.addActionListener( animate );
         stopButton.setActionCommand( "stop" );
+
+        button.addActionListener( animate );
+        button.setActionCommand( "custom" );
 
     }
 }

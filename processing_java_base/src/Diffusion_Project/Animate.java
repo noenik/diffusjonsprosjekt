@@ -1,14 +1,12 @@
 package Diffusion_Project;
 
+import processing.core.PApplet;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import processing.core.PApplet;
 
 /**
  * @author nikla_000
@@ -49,13 +47,13 @@ public class Animate extends PApplet implements ActionListener {
         drawXCoordAndYCoord();
 
         // Bevegelse av en partikkel i 1D
-        animateOneParticleIn1D( particle1 );
+        //animateOneParticleIn1D( particle1 );
 
         // Bevegelse av en partikkel i 2D
         //animatePluralParticlesIn2D (particles);
 
         // Bevegelse av mange partikler i 2D
-        //animatePluralParticlesIn2D( particles );
+        animatePluralParticlesIn2D( particles );
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
