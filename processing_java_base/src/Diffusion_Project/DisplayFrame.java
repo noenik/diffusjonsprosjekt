@@ -5,16 +5,17 @@
  */
 package Diffusion_Project;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  * @author nikla_000
  */
+
 public class DisplayFrame extends JFrame
 {
+
 
     private Animate animate;
 
@@ -29,14 +30,17 @@ public class DisplayFrame extends JFrame
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         panel = new JPanel();
-        startButton = new JButton( "Start" );
-        stopButton = new JButton( "Stop" );
+        startButton = new JButton("Start");
+        stopButton = new JButton("Stop");
+        button = new JButton("Add Particles");
         animate = new Animate();
 
         panel.add( animate );
-        this.add( panel );
-        this.add( startButton );
-        this.add( stopButton );
+        this.add(panel);
+        this.add(startButton);
+        this.add(stopButton);
+        this.add(button);
+
 
         fixLayout();
         actionListeners();
@@ -49,10 +53,12 @@ public class DisplayFrame extends JFrame
     private void fixLayout()
     {
         setLayout( null );
-        
-        panel.setBounds( 20, 20, 400, 400 );
-        startButton.setBounds( 450, 20, 100, 30 );
-        stopButton.setBounds( 570, 20, 100, 30 );
+
+        panel.setBounds(20, 20, 400, 400);
+        startButton.setBounds(450, 20, 100, 30);
+        stopButton.setBounds(570, 20, 100, 30);
+        button.setBounds(450, 70, 150, 30);
+
         
     }
     
@@ -63,5 +69,6 @@ public class DisplayFrame extends JFrame
         
         stopButton.addActionListener( animate );
         stopButton.setActionCommand( "stop" );
+
     }
 }

@@ -5,12 +5,15 @@ import processing.core.PApplet;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * @author nikla_000
  */
-public class Animate extends PApplet implements ActionListener
-{
+public class Animate extends PApplet implements ActionListener {
 
     Particle particle1;
 
@@ -29,20 +32,17 @@ public class Animate extends PApplet implements ActionListener
 
         particle1 = new Particle( 200, 200, 1, 1 );
 
-
         particles = new ArrayList<Particle>();
-
-        addParticles( 1000 );
 
         frameRate( 10 );
         noLoop();
     }
 
     @Override
+
     public void draw()
     {
         background( 255 );
-
         drawGrid();
 
         drawXCoordAndYCoord();
@@ -115,8 +115,7 @@ public class Animate extends PApplet implements ActionListener
         }
     }
 
-    void drawGrid()
-    {
+    void drawGrid() {
         float xCoord = 1;
         float yCoord = 1;
 
@@ -130,7 +129,6 @@ public class Animate extends PApplet implements ActionListener
             yCoord += 40;
         }
     }
-
     void drawXCoordAndYCoord()
     {
         stroke( 0, 255, 0 );
@@ -150,6 +148,17 @@ public class Animate extends PApplet implements ActionListener
             case "stop":
                 noLoop();
                 break;
+            case "custom":
+                custom();
         }
+    }
+
+    private void custom() {
+        JPanel panel = new JPanel();
+        JTextField field = new JTextField(4);
+        panel.add(new JLabel("Number of new particles:"));
+        panel.add(field);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Please enter a number", JOptionPane.OK_CANCEL_OPTION);
+        addParticles(Integer.parseInt(field.getText()));
     }
 }
