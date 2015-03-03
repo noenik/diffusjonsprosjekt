@@ -253,8 +253,8 @@ Dynamic libraries:
 
 VM Arguments:
 jvm_args: -Dfile.encoding=UTF-8 
-java_command: processing_java_base.Processing_java_base
-java_class_path (initial): C:\Users\nikla_000\Documents\processing_java_base\core.jar;C:\Users\nikla_000\Documents\processing_java_base\build\classes
+java_command: Diffusion_Project.Processing_java_base
+java_class_path (initial): C:\Users\nikla_000\Documents\Diffusion_Project\core.jar;C:\Users\nikla_000\Documents\Diffusion_Project\build\classes
 Launcher Type: SUN_STANDARD
 
 Environment Variables:

@@ -14,7 +14,7 @@ import javax.swing.*;
  */
 public class DisplayFrame extends JFrame implements ActionListener{
 
-    private Animate s;
+    private Animate animate;
 
     private JPanel panel;
     private JButton startButton;
@@ -29,9 +29,9 @@ public class DisplayFrame extends JFrame implements ActionListener{
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         button = new JButton("Add Particles");
-        s = new Animate();
+        animate = new Animate();
 
-        panel.add(s);
+        panel.add( animate );
         this.add(panel);
         this.add(startButton);
         this.add(stopButton);
@@ -40,7 +40,7 @@ public class DisplayFrame extends JFrame implements ActionListener{
         fixLayout();
         actionListeners();
 
-        s.init();
+        animate.init();
 
         this.setVisible(true);
     }
@@ -51,18 +51,18 @@ public class DisplayFrame extends JFrame implements ActionListener{
         panel.setBounds(20, 20, 400, 400);
         startButton.setBounds(450, 20, 100, 30);
         stopButton.setBounds(570, 20, 100, 30);
-        button.setBounds(450, 70, 100, 30);
+        button.setBounds(450, 70, 150, 30);
         
     }
     
     private void actionListeners() {
-        startButton.addActionListener(s);
+        startButton.addActionListener( animate );
         startButton.setActionCommand("run");
         
-        stopButton.addActionListener(s);
+        stopButton.addActionListener( animate );
         stopButton.setActionCommand("stop");
         
-        button.addActionListener(s);
+        button.addActionListener(animate);
         button.setActionCommand("custom");
     }
 

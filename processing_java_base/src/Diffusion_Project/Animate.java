@@ -1,7 +1,5 @@
 package Diffusion_Project;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import processing.core.PApplet;
 
 import java.awt.event.ActionEvent;
@@ -25,13 +23,20 @@ public class Animate extends PApplet implements ActionListener {
     int time = 0;
 
     @Override
-    public void setup() {
-        size(400, 400);
-        particle1 = new Particle(200, 200, 20, 20);
-        particle2 = new Particle(200, 200, 20, 20);
+    public void setup ()
+    {
+        size (400, 400);
+        if(frame != null)
+        {
+            frame.setResizable( true );
+        }
+
+        particle1 = new Particle (200, 200, 20, 20);
+        particle2 = new Particle (200, 200, 20, 20);
 
         particles = new ArrayList<Particle>();
-        frameRate(10);
+
+        frameRate (10);
         noLoop();
     }
 
@@ -44,8 +49,9 @@ public class Animate extends PApplet implements ActionListener {
         drawXCoordAndYCoord();
 
         //animateOneParticle (particle1);
-        //animateOneParticle (particle2);
-        animatePluralParticles(particles);
+
+
+        animatePluralParticles (particles);
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
@@ -124,6 +130,6 @@ public class Animate extends PApplet implements ActionListener {
         panel.add(new JLabel("Number of new particles:"));
         panel.add(field);
         int result = JOptionPane.showConfirmDialog(null, panel, "Please enter a number", JOptionPane.OK_CANCEL_OPTION);
-        addParticles(result);
+        addParticles(Integer.parseInt(field.getText()));
     }
 }
