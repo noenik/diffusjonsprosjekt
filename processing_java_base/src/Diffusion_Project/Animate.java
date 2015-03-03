@@ -1,5 +1,8 @@
 package Diffusion_Project;
 
+import processing.core.PApplet;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -8,7 +11,6 @@ import java.util.Random;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import processing.core.PApplet;
 
 /**
  * @author nikla_000
@@ -16,6 +18,8 @@ import processing.core.PApplet;
 public class Animate extends PApplet implements ActionListener, ChangeListener {
 
     Particle particle1;
+
+    Statistics statistics;
 
     ArrayList<Particle> particles;
     Random rand = new Random();
@@ -37,8 +41,11 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
         particles = new ArrayList<Particle>();
 
+        statistics = new Statistics();
+
         frameRate( 10 );
         noLoop();
+
     }
 
     @Override
@@ -62,6 +69,9 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
         // Increment time. (Tilsvarer tidssteg).
         time++;
         //System.out.println ("Time = " + time + " Steps");
+        statistics.setParticle( particle1 );
+
+        System.out.println(statistics.getNumberOfStepIn1D());
     }
 
     /**
@@ -87,7 +97,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
         fill( 255, 0, 0 );
         ellipseMode( CENTER );
         ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
-        p.move2D(rand.nextInt(3) - 1, rand.nextInt(3) - 1);
+        p.move2D(rand.nextInt( 3 ) - 1, rand.nextInt( 3 ) - 1);
     }
 
     /**
@@ -101,7 +111,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
             fill( 255, 0, 0 );
             ellipseMode( CENTER );
             ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
-            p.move2D(rand.nextInt(3) - 1, rand.nextInt(3) - 1);
+            p.move2D(rand.nextInt( 3 ) - 1, rand.nextInt( 3 ) - 1);
         }
     }
 
