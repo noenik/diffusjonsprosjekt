@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="48.0" y="-126.0">Diffusion_Project.SampleSketch</node>
+    <node x="344.0" y="-130.0">Diffusion_Project.Particle</node>
+    <node x="-213.0" y="-119.0">Diffusion_Project.DisplayFrame</node>
+    <node x="-458.0" y="-113.0">Diffusion_Project.Main</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Diffusion_Project.Main" target="Diffusion_Project.DisplayFrame">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Diffusion_Project.DisplayFrame" target="Diffusion_Project.SampleSketch">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="Diffusion_Project.SampleSketch" target="Diffusion_Project.Particle">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="112.0" y="188.0" />
+  <SelectedNodes>
+    <node>Diffusion_Project.Particle</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
