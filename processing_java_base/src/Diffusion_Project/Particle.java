@@ -11,11 +11,21 @@ package Diffusion_Project;
  */
 public class Particle
 {
+    // Particle's coordinates
     private float xCoord;
     private float yCoord;
+
+    // Particle's properties
     private float width;
     private float height;
 
+    /**
+     * Constructs a new particle with xy coordinates and a given height and length
+     * @param x coordinates of the particle
+     * @param y coordinates particle
+     * @param w Width of the particle
+     * @param h height of the particle
+     */
     public Particle (float x, float y, float w, float h)
     {
         xCoord = x;
@@ -24,21 +34,37 @@ public class Particle
         height = h;
     }
 
-    public float getxCoord ()
+    /**
+     * Gets the current x coordinates
+     * @return x coordinates to return
+     */
+    public float getXCoord ()
     {
         return xCoord;
     }
 
-    public float getyCoord ()
+    /**
+     * Gets the current y coordinates
+     * @return y coordinates to return
+     */
+    public float getYCoord ()
     {
         return yCoord;
     }
 
+    /**
+     * Get the width of the particle
+     * @return the width of the particle
+     */
     public float getWidth ()
     {
         return width;
     }
 
+    /**
+     * Gets the height of the particle
+     * @return the height of the particle
+     */
     public float getHeight ()
     {
         return height;

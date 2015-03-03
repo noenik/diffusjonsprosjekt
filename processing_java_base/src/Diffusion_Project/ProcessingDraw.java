@@ -30,6 +30,7 @@ public class ProcessingDraw extends PApplet
 
         float xCoord = 1;
         float yCoord = 1;
+
         for (float y = 1; y < width; y++)
         {
             line (0, yCoord, width, yCoord);
@@ -43,10 +44,10 @@ public class ProcessingDraw extends PApplet
 
         particle1.move2D (random (2) - 1, random (2) - 1);
         particle2.move2D (random (2) - 1, random (2) - 1);
-        //        posY += random(2) - 1;
+
         fill (255, 0, 0);
-        ellipse (particle1.getxCoord (), particle1.getyCoord (), particle1.getWidth (), particle1.getHeight ());
-        ellipse (particle2.getxCoord (), particle2.getyCoord (), particle2.getWidth (), particle2.getHeight ());
+        ellipse (particle1.getXCoord (), particle1.getYCoord (), particle1.getWidth (), particle1.getHeight ());
+        ellipse (particle2.getXCoord (), particle2.getYCoord (), particle2.getWidth (), particle2.getHeight ());
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
