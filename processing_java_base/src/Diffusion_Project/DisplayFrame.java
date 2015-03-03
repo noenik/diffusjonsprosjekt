@@ -5,15 +5,14 @@
  */
 package Diffusion_Project;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  * @author nikla_000
  */
-public class DisplayFrame extends JFrame {
+public class DisplayFrame extends JFrame implements ActionListener{
 
     private Animate s;
 
@@ -29,12 +28,14 @@ public class DisplayFrame extends JFrame {
         panel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
+        button = new JButton("Add Particles");
         s = new Animate();
 
         panel.add(s);
         this.add(panel);
         this.add(startButton);
         this.add(stopButton);
+        this.add(button);
 
         fixLayout();
         actionListeners();
@@ -50,6 +51,7 @@ public class DisplayFrame extends JFrame {
         panel.setBounds(20, 20, 400, 400);
         startButton.setBounds(450, 20, 100, 30);
         stopButton.setBounds(570, 20, 100, 30);
+        button.setBounds(450, 70, 100, 30);
         
     }
     
@@ -59,5 +61,13 @@ public class DisplayFrame extends JFrame {
         
         stopButton.addActionListener(s);
         stopButton.setActionCommand("stop");
+        
+        button.addActionListener(s);
+        button.setActionCommand("custom");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
     }
 }
