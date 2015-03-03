@@ -8,8 +8,8 @@ import processing.core.*;
 public class ProcessingDraw extends PApplet
 {
 
-    Particle x;
-    Particle z;
+    Particle particle1;
+    Particle particle2;
 
     int time = 0;
 
@@ -17,8 +17,8 @@ public class ProcessingDraw extends PApplet
     public void setup ()
     {
         size (400, 400);
-        x = new Particle (200, 200, 20, 20);
-        z = new Particle (200, 200, 20, 20);
+        particle1 = new Particle (200, 200, 20, 20);
+        particle2 = new Particle (200, 200, 20, 20);
         frameRate (10);
     }
 
@@ -41,12 +41,12 @@ public class ProcessingDraw extends PApplet
         line (width / 2, 0, width / 2, height);
         line (0, height / 2, width, height / 2);
 
-        x.move (random (2) - 1, random (2) - 1);
-        z.move (random (2) - 1, random (2) - 1);
+        particle1.move2D (random (2) - 1, random (2) - 1);
+        particle2.move2D (random (2) - 1, random (2) - 1);
         //        posY += random(2) - 1;
         fill (255, 0, 0);
-        ellipse (x.getxCoord (), x.getyCoord (), x.getWidth (), x.getHeight ());
-        ellipse (z.getxCoord (), z.getyCoord (), z.getWidth (), z.getHeight ());
+        ellipse (particle1.getxCoord (), particle1.getyCoord (), particle1.getWidth (), particle1.getHeight ());
+        ellipse (particle2.getxCoord (), particle2.getyCoord (), particle2.getWidth (), particle2.getHeight ());
 
         // Increment time. (Tilsvarer tidssteg).
         time++;

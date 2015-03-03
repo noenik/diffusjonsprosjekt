@@ -44,7 +44,21 @@ public class Particle
         return height;
     }
 
-    public void move (float x, float y)
+    /**
+     * Move the particle1 in 1D
+     * @param x direction
+     */
+    public void move1D (float x)
+    {
+        xCoord += x;
+    }
+
+    /**
+     * Move the particle1 in 2D
+     * @param x direction
+     * @param y direction
+     */
+    public void move2D (float x, float y)
     {
         xCoord += x;
         yCoord += y;
