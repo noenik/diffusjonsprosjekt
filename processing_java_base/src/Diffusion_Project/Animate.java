@@ -13,45 +13,48 @@ public class Animate extends PApplet implements ActionListener
 {
 
     Particle particle1;
-    Particle particle2;
 
     ArrayList<Particle> particles;
 
     int time = 0;
 
     @Override
-    public void setup ()
+    public void setup()
     {
-        size (400, 400);
+        size( 400, 400 );
         if(frame != null)
         {
             frame.setResizable( true );
         }
 
-        particle1 = new Particle (200, 200, 20, 20);
-        particle2 = new Particle (200, 200, 20, 20);
+        particle1 = new Particle( 200, 200, 1, 1 );
+
 
         particles = new ArrayList<Particle>();
 
-        addParticles (10);
+        addParticles( 1000 );
 
-        frameRate (10);
+        frameRate( 10 );
         noLoop();
     }
 
     @Override
-    public void draw ()
+    public void draw()
     {
-        background (0);
+        background( 255 );
 
-        drawGrid ();
+        drawGrid();
 
-        drawXCoordAndYCoord ();
+        drawXCoordAndYCoord();
 
-        //animateOneParticle (particle1);
+        // Bevegelse av en partikkel i 1D
+        animateOneParticleIn1D( particle1 );
 
+        // Bevegelse av en partikkel i 2D
+        //animatePluralParticlesIn2D (particles);
 
-        animatePluralParticles (particles);
+        // Bevegelse av mange partikler i 2D
+        //animatePluralParticlesIn2D( particles );
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
@@ -59,38 +62,56 @@ public class Animate extends PApplet implements ActionListener
     }
 
     /**
+     * Animate one particle in 1D
+     */
+    void animateOneParticleIn1D (Particle p)
+    {
+        p.setWidth( 10 );
+        p.setHeight( 10 );
+        fill( 255, 0, 0 );
+        ellipseMode( CENTER );
+        ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
+        p.move1D( random( 2 ) - 1 );
+    }
+
+    /**
      * Animates one particle in 2D
      */
-    void animateOneParticle (Particle p)
+    void animateOneParticleIn2D(Particle p)
     {
-        fill (255, 0, 0);
-        ellipse (p.getXCoord (), p.getYCoord (), p.getWidth (), p.getHeight ());
-        p.move2D (random (2) - 1, random (2) - 1);
+        p.setWidth( 10 );
+        p.setHeight( 10 );
+        fill( 255, 0, 0 );
+        ellipseMode( CENTER );
+        ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
+        p.move2D( random( 2 ) - 1, random( 2 ) - 1 );
     }
 
     /**
      * Animates multiple particles in 2D
      */
-    void animatePluralParticles (ArrayList<Particle> particles)
+    void animatePluralParticlesIn2D(ArrayList<Particle> particles)
     {
-        for (Particle p : particles)
+        for(Particle p : particles)
         {
             noStroke();
             fill( 255, 0, 0 );
-            ellipse (p.getXCoord (), p.getYCoord (), p.getWidth (), p.getHeight ());
-            p.move2D (random (2) - 1, random (2) - 1);
+            ellipseMode( CENTER );
+            ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
+            p.move2D( random( 2 ) - 1, random( 2 ) - 1 );
         }
     }
 
     /**
      * Legg til x antall partikler i listen particles.
+     *
      * @param amountOfParticles antall partikkler å legge til.
      */
     void addParticles(int amountOfParticles)
     {
-        for (int i = 0; i <= amountOfParticles; i++)
+        for(int i = 0; i <= amountOfParticles; i++)
         {
-            particles.add (new Particle ());
+            particles.add( new Particle() );
         }
     }
 
@@ -99,11 +120,11 @@ public class Animate extends PApplet implements ActionListener
         float xCoord = 1;
         float yCoord = 1;
 
-        for (float y = 1; y < width; y++)
+        for(float y = 1; y < width; y++)
         {
-            stroke (255);
-            line (0, yCoord, width, yCoord);
-            line (xCoord, 0, xCoord, height);
+            stroke( 0 );
+            line( 0, yCoord, width, yCoord );
+            line( xCoord, 0, xCoord, height );
 
             xCoord += 40;
             yCoord += 40;
@@ -112,15 +133,17 @@ public class Animate extends PApplet implements ActionListener
 
     void drawXCoordAndYCoord()
     {
-        stroke (0, 255,0);
-        line (width / 2, 0, width / 2, height);
-        line (0, height / 2, width, height / 2);
+        stroke( 0, 255, 0 );
+        line( width / 2, 0, width / 2, height );
+        line( 0, height / 2, width, height / 2 );
     }
 
-   
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        switch(e.getActionCommand()) {
+    public void actionPerformed(ActionEvent e)
+    {
+        switch(e.getActionCommand())
+        {
             case "run":
                 loop();
                 break;

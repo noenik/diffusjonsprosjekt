@@ -13,7 +13,8 @@ import javax.swing.WindowConstants;
 /**
  * @author nikla_000
  */
-public class DisplayFrame extends JFrame {
+public class DisplayFrame extends JFrame
+{
 
     private Animate animate;
 
@@ -22,18 +23,19 @@ public class DisplayFrame extends JFrame {
     private JButton stopButton;
     private JButton button;
 
-    public DisplayFrame() {
-        this.setSize(1200, 500);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    public DisplayFrame()
+    {
+        this.setSize( 1200, 500 );
+        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         panel = new JPanel();
-        startButton = new JButton("Start");
-        stopButton = new JButton("Stop");
+        startButton = new JButton( "Start" );
+        stopButton = new JButton( "Stop" );
         animate = new Animate();
 
         panel.add( animate );
-        this.add(panel);
-        this.add(startButton);
+        this.add( panel );
+        this.add( startButton );
         this.add( stopButton );
 
         fixLayout();
@@ -41,23 +43,25 @@ public class DisplayFrame extends JFrame {
 
         animate.init();
 
-        this.setVisible(true);
+        this.setVisible( true );
     }
     
-    private void fixLayout(){
-        setLayout(null);
+    private void fixLayout()
+    {
+        setLayout( null );
         
-        panel.setBounds(20, 20, 400, 400);
-        startButton.setBounds(450, 20, 100, 30);
-        stopButton.setBounds(570, 20, 100, 30);
+        panel.setBounds( 20, 20, 400, 400 );
+        startButton.setBounds( 450, 20, 100, 30 );
+        stopButton.setBounds( 570, 20, 100, 30 );
         
     }
     
-    private void actionListeners() {
+    private void actionListeners()
+    {
         startButton.addActionListener( animate );
-        startButton.setActionCommand("run");
+        startButton.setActionCommand( "run" );
         
         stopButton.addActionListener( animate );
-        stopButton.setActionCommand("stop");
+        stopButton.setActionCommand( "stop" );
     }
 }
