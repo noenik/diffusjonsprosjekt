@@ -41,7 +41,10 @@ public class Particle
         stepsMoved = new ArrayList<>();
     }
 
-
+    public ArrayList<Integer> getStepsMoved()
+    {
+        return stepsMoved;
+    }
 
     /**
      * Gets the current x coordinates
