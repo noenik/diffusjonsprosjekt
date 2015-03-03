@@ -2,16 +2,20 @@ package Diffusion_Project;
 
 import processing.core.PApplet;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
  * @author nikla_000
  */
-public class Animate extends PApplet
+public class Animate extends PApplet implements ActionListener
 {
 
     Particle particle1;
     Particle particle2;
+
+    ArrayList<Particle> particles;
 
     int time = 0;
 
@@ -21,6 +25,8 @@ public class Animate extends PApplet
         size (400, 400);
         particle1 = new Particle (200, 200, 20, 20);
         particle2 = new Particle (200, 200, 20, 20);
+
+        particles = new ArrayList<Particle>();
         frameRate (10);
     }
 
@@ -33,8 +39,11 @@ public class Animate extends PApplet
 
         drawXCoordAndYCoord ();
 
-        animateOneParticle (particle1);
-        animateOneParticle (particle2);
+        //animateOneParticle (particle1);
+        //animateOneParticle (particle2);
+
+        addParticles (10);
+        animatePluralParticles (particles);
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
@@ -54,12 +63,26 @@ public class Animate extends PApplet
     /**
      * Animates multiple particles in 2D
      */
-    void animatePluralParticles (ArrayList<Particle> p, int amountOfParticles)
+    void animatePluralParticles (ArrayList<Particle> particles)
     {
-        p.ensureCapacity (amountOfParticles);
-        for(Particle particle : p)
+        for (Particle p : particles)
         {
-            animateOneParticle (particle);
+            noStroke();
+            fill( 255, 0, 0 );
+            ellipse (p.getXCoord (), p.getYCoord (), p.getWidth (), p.getHeight ());
+            p.move2D (random (2) - 1, random (2) - 1);
+        }
+    }
+
+    /**
+     * Legg til x antall partikler i listen particles.
+     * @param amountOfParticles antall partikkler å legge til.
+     */
+    void addParticles(int amountOfParticles)
+    {
+        for (int i = 0; i <= amountOfParticles; i++)
+        {
+            particles.add (new Particle ());
         }
     }
 
@@ -86,4 +109,9 @@ public class Animate extends PApplet
         line (0, height / 2, width, height / 2);
     }
 
+    @Override
+    public void actionPerformed (ActionEvent e)
+    {
+
+    }
 }
