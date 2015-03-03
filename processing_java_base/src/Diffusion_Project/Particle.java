@@ -20,6 +20,13 @@ public class Particle
     // Particle's properties
     private float width;
     private float height;
+    
+    // Max and min coordinates so that the particle does not 
+    // move outside the canvas.
+    private static float X_MAX = 400;
+    private static float X_MIN = 0;
+    private static float Y_MAX = 400;
+    private static float Y_MIN = 0;
 
    ArrayList<Integer> stepsMoved;
 
@@ -39,6 +46,10 @@ public class Particle
         height = h;
 
         stepsMoved = new ArrayList<>();
+    }
+    public Particle()
+    {
+        this(200,200,1,1);
     }
 
     public ArrayList<Integer> getStepsMoved()
@@ -103,17 +114,11 @@ public class Particle
      */
     public void move1D(int x)
     {
+        System.out.println(x);
         xCoord += x;
         stepsMoved.add( x );
     }
 
-    public Particle()
-    {
-        xCoord = 200;
-        yCoord = 200;
-        width = 1;
-        height = 1;
-    }
 
     /**
      * Move the particle1 in 2D
@@ -125,5 +130,19 @@ public class Particle
     {
         xCoord += x;
         yCoord += y;
+        
+        // If the coordinate is increased out of any boudaries it will 
+        // "bounce" back.
+        if(xCoord < X_MIN) {
+            xCoord++;
+        } else if(xCoord > X_MAX) {
+            xCoord--;
+        }
+        
+        if(yCoord < Y_MIN) {
+            yCoord++;
+        } else if(yCoord > Y_MAX) {
+            yCoord--;
+        }
     }
 }

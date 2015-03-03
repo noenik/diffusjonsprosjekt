@@ -25,6 +25,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     Random rand = new Random();
 
     int time = 0;
+    int dimensions = 2;
 
     JSlider sliderSource;
     
@@ -57,15 +58,9 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
         drawXCoordAndYCoord();
 
-        // Bevegelse av en partikkel i 1D
-        //animateOneParticleIn1D( particle1 );
-
-        // Bevegelse av en partikkel i 2D
-        animatePluralParticlesIn2D (particles);
-
-        // Bevegelse av mange partikler i 2D
-        //animatePluralParticlesIn2D( particles );
-
+        // Runs the animation, takes number of dimensions as parameter.
+        animate(dimensions);
+        
         // Increment time. (Tilsvarer tidssteg).
         time++;
         //System.out.println ("Time = " + time + " Steps");
@@ -73,45 +68,20 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
         System.out.println(statistics.getNumberOfStepIn1D());
     }
-
-    /**
-     * Animate one particle in 1D
-     */
-    void animateOneParticleIn1D (Particle p)
-    {
-        p.setWidth( 10 );
-        p.setHeight( 10 );
-        fill( 255, 0, 0 );
-        ellipseMode( CENTER );
-        ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
-        p.move1D( rand.nextInt( 3 ) - 1 );
-    }
-
-    /**
-     * Animates one particle in 2D
-     */
-    void animateOneParticleIn2D(Particle p)
-    {
-        p.setWidth( 10 );
-        p.setHeight( 10 );
-        fill( 255, 0, 0 );
-        ellipseMode( CENTER );
-        ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
-        p.move2D(rand.nextInt( 3 ) - 1, rand.nextInt( 3 ) - 1);
-    }
-
-    /**
-     * Animates multiple particles in 2D
-     */
-    void animatePluralParticlesIn2D(ArrayList<Particle> particles)
-    {
+    
+    public void animate(int dimensions) {
         for(Particle p : particles)
         {
             noStroke();
             fill( 255, 0, 0 );
             ellipseMode( CENTER );
             ellipse( p.getXCoord(), p.getYCoord(), p.getWidth(), p.getHeight() );
-            p.move2D(rand.nextInt( 3 ) - 1, rand.nextInt( 3 ) - 1);
+            
+            if(dimensions == 2) {
+                p.move2D(rand.nextInt( 3 ) - 1, rand.nextInt( 3 ) - 1);
+            } else {
+                p.move1D( rand.nextInt( 3 ) - 1 );
+            }
         }
     }
 
@@ -122,24 +92,19 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
      */
     void addParticles(int amountOfParticles)
     {
-        for(int i = 0; i <= amountOfParticles; i++)
+        for(int i = 0; i < amountOfParticles; i++)
         {
             particles.add( new Particle() );
         }
     }
 
     void drawGrid() {
-        float xCoord = 1;
-        float yCoord = 1;
 
-        for(float y = 1; y < width; y++)
+        for(float y = 1; y < width; y += 40)
         {
             stroke( 0 );
-            line( 0, yCoord, width, yCoord );
-            line( xCoord, 0, xCoord, height );
-
-            xCoord += 40;
-            yCoord += 40;
+            line( 0, y, width, y );
+            line( y, 0, y, height );
         }
     }
     void drawXCoordAndYCoord()
@@ -175,6 +140,8 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     private void reset() {
         particles.clear();
         sliderSource.setValue(10);
+        noLoop();
+        redraw();
     }
 
     @Override
@@ -194,6 +161,11 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
             case "reset":
                 reset();
                 break;
+            case "1d":
+                dimensions = 1;
+                break;
+            case "2d":
+                dimensions = 2;
         }
     }
     
