@@ -1,5 +1,7 @@
 package Diffusion_Project;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import processing.core.PApplet;
 
 import java.awt.event.ActionEvent;
@@ -28,6 +30,7 @@ public class Animate extends PApplet implements ActionListener
 
         particles = new ArrayList<Particle>();
         frameRate (10);
+        noLoop();
     }
 
     @Override
@@ -109,9 +112,16 @@ public class Animate extends PApplet implements ActionListener
         line (0, height / 2, width, height / 2);
     }
 
+   
     @Override
-    public void actionPerformed (ActionEvent e)
-    {
-
+    public void actionPerformed(ActionEvent e) {
+        switch(e.getActionCommand()) {
+            case "run":
+                loop();
+                break;
+            case "stop":
+                noLoop();
+                break;
+        }
     }
 }
