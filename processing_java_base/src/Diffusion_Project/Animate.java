@@ -2,6 +2,8 @@ package Diffusion_Project;
 
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+
 /**
  * @author nikla_000
  */
@@ -26,30 +28,13 @@ public class Animate extends PApplet
     public void draw ()
     {
         background (0);
-        stroke (255);
 
-        float xCoord = 1;
-        float yCoord = 1;
+        drawGrid ();
 
-        // Draws the map grid
-        for (float y = 1; y < width; y++)
-        {
-            line (0, yCoord, width, yCoord);
-            line (xCoord, 0, xCoord, height);
-
-            xCoord += 40;
-            yCoord += 40;
-        }
-
-        line (width / 2, 0, width / 2, height);
-        line (0, height / 2, width, height / 2);
+        drawXCoordAndYCoord ();
 
         animateOneParticle (particle1);
         animateOneParticle (particle2);
-
-        fill (255, 0, 0);
-        ellipse (particle1.getXCoord (), particle1.getYCoord (), particle1.getWidth (), particle1.getHeight ());
-        ellipse (particle2.getXCoord (), particle2.getYCoord (), particle2.getWidth (), particle2.getHeight ());
 
         // Increment time. (Tilsvarer tidssteg).
         time++;
@@ -61,16 +46,44 @@ public class Animate extends PApplet
      */
     void animateOneParticle (Particle p)
     {
+        fill (255, 0, 0);
+        ellipse (p.getXCoord (), p.getYCoord (), p.getWidth (), p.getHeight ());
         p.move2D (random (2) - 1, random (2) - 1);
     }
 
     /**
      * Animates multiple particles in 2D
      */
-    void animatePluralParticles ()
+    void animatePluralParticles (ArrayList<Particle> p, int amountOfParticles)
     {
+        p.ensureCapacity (amountOfParticles);
+        for(Particle particle : p)
+        {
+            animateOneParticle (particle);
+        }
+    }
 
+    void drawGrid()
+    {
+        float xCoord = 1;
+        float yCoord = 1;
 
+        for (float y = 1; y < width; y++)
+        {
+            stroke (255);
+            line (0, yCoord, width, yCoord);
+            line (xCoord, 0, xCoord, height);
+
+            xCoord += 40;
+            yCoord += 40;
+        }
+    }
+
+    void drawXCoordAndYCoord()
+    {
+        stroke (0, 255,0);
+        line (width / 2, 0, width / 2, height);
+        line (0, height / 2, width, height / 2);
     }
 
 }
