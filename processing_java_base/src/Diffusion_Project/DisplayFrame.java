@@ -20,6 +20,7 @@ public class DisplayFrame extends JFrame {
     private JPanel panel;
     private JButton startButton;
     private JButton stopButton;
+    private JButton button;
 
     public DisplayFrame() {
         this.setSize(1200, 500);
