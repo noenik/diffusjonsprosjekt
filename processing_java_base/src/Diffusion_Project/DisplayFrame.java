@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
  */
 public class DisplayFrame extends JFrame
 {
-    private ProcessingDraw s;
+    private Animate s;
 
     private JPanel panel;
     //    private JLabel label;
@@ -27,7 +27,7 @@ public class DisplayFrame extends JFrame
 
         panel = new JPanel ();
         //        label = new JLabel();
-        s = new ProcessingDraw ();
+        s = new Animate ();
 
         panel.add (s);
         this.add (panel);
