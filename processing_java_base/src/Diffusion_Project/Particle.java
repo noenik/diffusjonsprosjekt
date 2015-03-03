@@ -79,6 +79,14 @@ public class Particle
         xCoord += x;
     }
 
+    public Particle ()
+    {
+        xCoord = 200;
+        yCoord = 200;
+        width = 20;
+        height = 20;
+    }
+
     /**
      * Move the particle1 in 2D
      * @param x direction
@@ -86,6 +94,7 @@ public class Particle
      */
     public void move2D (float x, float y)
     {
+
         xCoord += x;
         yCoord += y;
     }
