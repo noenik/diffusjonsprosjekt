@@ -94,7 +94,6 @@ public class Particle
      */
     public void move2D (float x, float y)
     {
-
         xCoord += x;
         yCoord += y;
     }

@@ -1,7 +1,5 @@
 package Diffusion_Project;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import processing.core.PApplet;
 
 import java.awt.event.ActionEvent;
@@ -25,10 +23,18 @@ public class Animate extends PApplet implements ActionListener
     public void setup ()
     {
         size (400, 400);
+        if(frame != null)
+        {
+            frame.setResizable( true );
+        }
+
         particle1 = new Particle (200, 200, 20, 20);
         particle2 = new Particle (200, 200, 20, 20);
 
         particles = new ArrayList<Particle>();
+
+        addParticles (10);
+
         frameRate (10);
         noLoop();
     }
@@ -43,9 +49,8 @@ public class Animate extends PApplet implements ActionListener
         drawXCoordAndYCoord ();
 
         //animateOneParticle (particle1);
-        //animateOneParticle (particle2);
 
-        addParticles (10);
+
         animatePluralParticles (particles);
 
         // Increment time. (Tilsvarer tidssteg).

@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
  */
 public class DisplayFrame extends JFrame {
 
-    private Animate s;
+    private Animate animate;
 
     private JPanel panel;
     private JButton startButton;
@@ -29,17 +29,17 @@ public class DisplayFrame extends JFrame {
         panel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
-        s = new Animate();
+        animate = new Animate();
 
-        panel.add(s);
+        panel.add( animate );
         this.add(panel);
         this.add(startButton);
-        this.add(stopButton);
+        this.add( stopButton );
 
         fixLayout();
         actionListeners();
 
-        s.init();
+        animate.init();
 
         this.setVisible(true);
     }
@@ -54,10 +54,10 @@ public class DisplayFrame extends JFrame {
     }
     
     private void actionListeners() {
-        startButton.addActionListener(s);
+        startButton.addActionListener( animate );
         startButton.setActionCommand("run");
         
-        stopButton.addActionListener(s);
+        stopButton.addActionListener( animate );
         stopButton.setActionCommand("stop");
     }
 }
