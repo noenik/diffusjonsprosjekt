@@ -1,14 +1,15 @@
 package Diffusion_Project;
 
-import processing.core.PApplet;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Random;
+import processing.core.PApplet;
 
 /**
  * @author nikla_000
@@ -55,8 +56,12 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
         drawXCoordAndYCoord();
 
+        try {
         // Runs the animation, takes number of dimensions as parameter.
         animate(dimensions);
+        }catch(ConcurrentModificationException c) {
+            
+        }
         
         // Increment time. (Tilsvarer tidssteg).
         time++;
@@ -140,9 +145,10 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     }
     
     private void reset() {
-        particles.clear();
-        sliderSource.setValue(10);
         noLoop();
+        particles.clear();
+        if(sliderSource != null)
+            sliderSource.setValue(10);
         redraw();
     }
 
