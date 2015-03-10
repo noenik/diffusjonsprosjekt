@@ -114,7 +114,7 @@ public class Particle
      */
     public void move1D(int x)
     {
-        System.out.println(x);
+//        System.out.println(x);
         xCoord += x;
         stepsMoved.add( x );
     }

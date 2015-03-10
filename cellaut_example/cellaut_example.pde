@@ -10,7 +10,7 @@ void setup() {
    for(int i = 0; i < width; i += 40) {
       aCount++;
       if(count == 6 && aCount == 6) {
-        list.add(new rectangle(i, y, 100000));
+        list.add(new rectangle(i, y, 10000));
       } else {
          list.add(new rectangle(i, y, 0));
       }   

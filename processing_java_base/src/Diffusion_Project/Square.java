@@ -62,8 +62,7 @@ public class Square {
     }
 
     Square randomNeighbour() {
-        int randNum = rand.nextInt(neighbours.size() - 1);
-        System.out.println(randNum);
+        int randNum = rand.nextInt(neighbours.size());
         return neighbours.get(randNum);
     }
 

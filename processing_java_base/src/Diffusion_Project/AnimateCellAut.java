@@ -21,7 +21,7 @@ public class AnimateCellAut extends PApplet {
     @Override
     public void setup() {
         size(440, 440);
-//        frameRate(5);
+        frameRate(5);
         int rowCount = 0;
         for (int y = 0; y < height; y += 40) {
             int colCount = 0;

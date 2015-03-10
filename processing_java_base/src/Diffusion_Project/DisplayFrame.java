@@ -15,7 +15,7 @@ public class DisplayFrame extends JFrame
 {
     // Declare components
 
-    private final AnimateCellAut animate;
+    private final Animate animate;
 
     private final JPanel panel;
     private final JSlider speedSlider;
@@ -42,7 +42,7 @@ public class DisplayFrame extends JFrame
         resetButton = new JButton("Reset");
         Dim1Button = new JButton("1 Dimension");
         Dim2Button = new JButton("2 Dimensions");
-        animate = new AnimateCellAut();
+        animate = new Animate();
 
         // Add components to the window.
         panel.add( animate );
@@ -83,25 +83,25 @@ public class DisplayFrame extends JFrame
     
     private void actionListeners()
     {
-//        // Set action listeners and commands to buttons
-//        startButton.addActionListener( animate );
-//        startButton.setActionCommand( "run" );
-//        
-//        stopButton.addActionListener( animate );
-//        stopButton.setActionCommand( "stop" );
-//        
-//        button.addActionListener( animate );
-//        button.setActionCommand( "custom" );
-//        
-//        resetButton.addActionListener( animate );
-//        resetButton.setActionCommand( "reset" );
-//        
-//        Dim1Button.addActionListener( animate );
-//        Dim1Button.setActionCommand( "1d" );
-//        
-//        Dim2Button.addActionListener( animate );
-//        Dim2Button.setActionCommand( "2d" );
-//
-//        speedSlider.addChangeListener(animate);
+        // Set action listeners and commands to buttons
+        startButton.addActionListener( animate );
+        startButton.setActionCommand( "run" );
+        
+        stopButton.addActionListener( animate );
+        stopButton.setActionCommand( "stop" );
+        
+        button.addActionListener( animate );
+        button.setActionCommand( "custom" );
+        
+        resetButton.addActionListener( animate );
+        resetButton.setActionCommand( "reset" );
+        
+        Dim1Button.addActionListener( animate );
+        Dim1Button.setActionCommand( "1d" );
+        
+        Dim2Button.addActionListener( animate );
+        Dim2Button.setActionCommand( "2d" );
+
+        speedSlider.addChangeListener(animate);
     }
 }
