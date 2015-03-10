@@ -17,11 +17,12 @@ public class AnimateCellAut extends PApplet {
 
     ArrayList<Square> list = new ArrayList<>();
     Random rand = new Random();
+    int currentFrameRate = 10;
 
     @Override
     public void setup() {
-        size(440, 440);
-        frameRate(5);
+        size(441, 441);
+        frameRate(currentFrameRate);
         int rowCount = 0;
         for (int y = 0; y < height; y += 40) {
             int colCount = 0;
@@ -67,7 +68,7 @@ public class AnimateCellAut extends PApplet {
             for (int p = 0; p < r.getParticles(); p++) {
                 set((int) random(xi + 1, xe - 1), (int) random(yi + 1, ye - 1), color(255, 0, 0));
 
-                if (random(1) < 0.2) {
+                if ((frameCount % currentFrameRate == 0) && (random(1) < 0.2)) {
                     moveParticle(index);
                 }
             }

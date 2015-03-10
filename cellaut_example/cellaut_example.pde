@@ -1,96 +1,115 @@
 ArrayList<rectangle> list = new ArrayList<rectangle>();
+particle p;
 
 void setup() {
- size(440, 440);
- frameRate(5);
- int count = 0;
- for(int y = 0; y < height; y += 40) {
-   count++;
+ size(441, 41);
+ 
   int aCount = 0; 
    for(int i = 0; i < width; i += 40) {
-      aCount++;
-      if(count == 6 && aCount == 6) {
-        list.add(new rectangle(i, y, 10000));
-      } else {
-         list.add(new rectangle(i, y, 0));
-      }   
+      list.add(new rectangle(i, 0, aCount));
+      aCount++; 
     }
+    
    for(rectangle r : list) {
     r.findNeighbours(list);
   }
- }
+  
+  p = new particle();
+ 
 }
 
 
 void draw() {
   background(255);
   
-  int index = 0;
+  ellipseMode(CENTER);
+  
+  
+  
+  fill(255);
   for(rectangle r : list) {
    float xi = r.getXinit();
    float xe = r.getXinit() + 40;
    float yi = r.getYinit();
    float ye = r.getYinit() + 40;
     
-    rect(xi, yi, xe, ye);
+   rect(xi, yi, xe, ye);
   
-    for(int p = 0; p < r.getParticles(); p++) {
-      set((int)random(xi + 1, xe - 1), (int)random(yi + 1, ye - 1), color(255,0,0));
-      
-      if(random(1) < 0.2) {
-        moveParticle(index);
-      }      
-    }
-    index++;
   }
-}
-
-void moveParticle(int index) {
-  rectangle r = list.get(index);
-  r.subP(1);
   
-  rectangle receiver = r.randomNeighbour();
-  receiver.addP(1);
+  fill(255, 0, 0);
+  ellipse(p.getX(), p.getY(), 20, 20);
+  p.move();
+  if(frameCount % 60 == 0) {
+    p.newSquare();
+  }
+  
 }
 
-int nextFree(int index){
+class particle {
+ float xCoord;
+ float yCoord;
+ int currentSquare;
+ int factor;
+ 
+ particle() {
+  currentSquare = 6;
+  xCoord = 20 * currentSquare;
+  yCoord = 20;
+  factor = 40;
+ } 
+ 
+ float getX() {
+   return xCoord;
+ }
+ 
+ float getY() {
+   return yCoord;
+ }
+ 
+ void move () {
+   xCoord = (factor * currentSquare + random(2) - 1) - 20;
+   yCoord += random(2) - 1;
+   
+   if(yCoord < 0) {
+     yCoord++;
+   } else if(yCoord > 40) {
+     yCoord--;
+   }
+   
+   if(xCoord < 0) {
+     xCoord++;
+   } else if(xCoord > 440) {
+     xCoord--;
+   }
+ }
+ 
+ void setFactor(int factor) {
+   this.factor = factor;
+ }
+
+void newSquare() {
   float randNum = random(1);
   
-  if(index < 10 && randNum < 0.5) 
-    return index + 1;
-  else if(index < 10 && randNum > 0.5)
-    return index + 10;
-    
-  if(index > 90 && randNum < 0.5) 
-    return index - 1;
-  else 
-    return index - 10;
-}
-
-boolean hasIndex(int index) {
-  
-  if(index < 0) {
-    return false;
-  } else if (index > list.size() - 1) {
-    return false;
-  } else {
-    return true;
+  if(randNum < 0.34) {
+    currentSquare--;
+  } else if(randNum > 0.67) {
+    currentSquare++;
   }
-    
+}
 }
 
 class rectangle {
   float xCoord;
   float yCoord;
-  
-  int particles;
+  int num;
   
   ArrayList<rectangle> neighbours = new ArrayList<rectangle>();
   
-  rectangle(float x, float y, int particles) {
+  rectangle(float x, float y, int num) {
    xCoord = x;
    yCoord = y;
-   this.particles = particles;
+   this.num = num;
   } 
   
   float getXinit() {
@@ -101,8 +120,8 @@ class rectangle {
    return yCoord; 
   }
   
-  int getParticles() {
-   return particles; 
+  int getNum() {
+   return num; 
   }
   
   rectangle randomNeighbour() {
@@ -111,23 +130,10 @@ class rectangle {
   
   void findNeighbours(ArrayList<rectangle> rectangles) {
     for(rectangle r : rectangles) {
-      float x = r.getXinit();
-      float y = r.getYinit();
-      if((x == xCoord - 40 && y == yCoord + 40) || (x == xCoord && y == yCoord + 40)
-          || (x == xCoord + 40 && y == yCoord + 40) || (x == xCoord - 40 && y == yCoord)
-          || (x == xCoord + 40 && y == yCoord) || (x == xCoord - 40 && y == yCoord - 40)
-          || (x == xCoord && y == yCoord - 40) || (x == xCoord + 40 && y == yCoord - 40)) {
+      if(r.getNum() == num + 1 && r.getNum() == num - 1) {
             neighbours.add(r);
           }
     }
-    System.out.println(neighbours.size());
-  }  
-  
-  void addP(int num) {
-   particles += num; 
   }
-  
-  void subP(int num) {
-   particles -= num;
-  }
-}
+} 
+

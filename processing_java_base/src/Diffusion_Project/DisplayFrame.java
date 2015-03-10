@@ -16,8 +16,11 @@ public class DisplayFrame extends JFrame
     // Declare components
 
     private final Animate animate;
+    private final AnimateCellAut animateCellAut;
 
-    private final JPanel panel;
+    private final JPanel panelAnimate;
+    private final JPanel panelAnimateCellAut;
+    
     private final JSlider speedSlider;
     private final JButton startButton;
     private final JButton stopButton;
@@ -28,13 +31,14 @@ public class DisplayFrame extends JFrame
 
     public DisplayFrame() {
         // Set the size of the window
-        this.setSize(1200, 500);
+        this.setSize(1300, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // Sets the window to appear in the center of the screen
         setLocationRelativeTo(null);
         
         // Initiate variables
-        panel = new JPanel();
+        panelAnimate = new JPanel();
+        panelAnimateCellAut = new JPanel();
         speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 60, 10);
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
@@ -43,11 +47,14 @@ public class DisplayFrame extends JFrame
         Dim1Button = new JButton("1 Dimension");
         Dim2Button = new JButton("2 Dimensions");
         animate = new Animate();
+        animateCellAut = new AnimateCellAut();
 
         // Add components to the window.
-        panel.add( animate );
+        panelAnimate.add( animate );
+        panelAnimateCellAut.add( animateCellAut );
         this.add(speedSlider);
-        this.add(panel);
+        this.add(panelAnimate);
+        this.add(panelAnimateCellAut);
         this.add(startButton);
         this.add(stopButton);
         this.add(button);
@@ -61,6 +68,7 @@ public class DisplayFrame extends JFrame
 
         // Initiate the processing sketch
         animate.init();
+        animateCellAut.init();
 
         this.setVisible( true );
     }
@@ -70,7 +78,8 @@ public class DisplayFrame extends JFrame
         setLayout( null );
 
         // Set position and size of components
-        panel.setBounds(20, 20, 440, 450);
+        panelAnimate.setBounds(20, 20, 441, 450);
+        panelAnimateCellAut.setBounds(730, 20, 441, 450);
         startButton.setBounds(450, 20, 100, 30);
         stopButton.setBounds(570, 20, 100, 30);
         button.setBounds(450, 70, 150, 30);
