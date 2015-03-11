@@ -31,7 +31,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     @Override
     public void setup()
     {
-        size( 402, 402 );
+        size( 401, 401 );
         if(frame != null)
         {
             frame.setResizable( true );
@@ -71,10 +71,6 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
         System.out.println( calclateStatistics.getSquaredDistance1D() );
     }
 
-    public int getCurrentMillis()
-    {
-        return currentMillis;
-    }
     
     public void animate(int dimensions) {
         for(Particle p : particles)
