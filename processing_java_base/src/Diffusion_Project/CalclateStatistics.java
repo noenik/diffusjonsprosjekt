@@ -1,13 +1,15 @@
 package Diffusion_Project;
 
 import java.util.ArrayList;
+import org.jfree.data.statistics.Statistics;
 
 /**
  * Created by Ramin on 03.03.2015.
  */
-public class Statistics
+public class CalclateStatistics
 {
     private int numberOfStepIn1D;
+    private int numberOfStepsIn2D;
     private int dimension;
     private int diffusionCoefficient;
     private int time;
@@ -23,7 +25,7 @@ public class Statistics
 
     private Particle particle;
 
-    public Statistics()
+    public CalclateStatistics()
     {
         animate = new Animate();
         particle = new Particle();
@@ -51,33 +53,5 @@ public class Statistics
         this.particle = particle;
     }
 
-    public double getVariance()
-    {
-        return variance;
-    }
 
-    public void setVariance(double variance)
-    {
-        this.variance = variance;
-    }
-
-    public double getStandardDeviation()
-    {
-        return standardDeviation = Math.sqrt( getVariance() );
-    }
-
-    public void setStandardDeviation(double standardDeviation)
-    {
-        this.standardDeviation = standardDeviation;
-    }
-
-    public double getSampleMean()
-    {
-        return Math.signum( getNumberOfStepIn1D() ) / time;
-    }
-
-    public void setSampleMean(double sampleMean)
-    {
-        this.sampleMean = sampleMean;
-    }
 }
