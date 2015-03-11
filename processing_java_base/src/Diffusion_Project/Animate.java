@@ -31,7 +31,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     @Override
     public void setup()
     {
-        size( 401, 401 );
+        size( 402, 402 );
         if(frame != null)
         {
             frame.setResizable( true );
