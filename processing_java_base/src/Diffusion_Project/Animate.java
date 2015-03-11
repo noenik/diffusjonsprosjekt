@@ -18,7 +18,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
     Particle particle1;
 
-    Statistics statistics;
+    CalclateStatistics calclateStatistics;
 
     ArrayList<Particle> particles;
     Random rand = new Random();
@@ -41,7 +41,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
         particles = new ArrayList<Particle>();
 
-        statistics = new Statistics();
+        calclateStatistics = new CalclateStatistics();
 
         frameRate( 10 );
         noLoop();
@@ -51,6 +51,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
     @Override
     public void draw()
     {
+
         background( 255 );
         drawGrid();
 
@@ -63,17 +64,16 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
             
         }
         
-        // Increment time. (Tilsvarer tidssteg).
-        time++;
-        //System.out.println ("Time = " + time + " Steps");
-        statistics.setParticle( particle1 );
+        // Increment currentMillis. (Tilsvarer tidssteg).
+        //System.out.println ("Time = " + currentMillis + " Steps");
+        calclateStatistics.setParticle( particle1 );
 
-        System.out.println( statistics.getNumberOfStepIn1D() );
+        System.out.println( calclateStatistics.getSquaredDistance1D() );
     }
 
-    public int getTime()
+    public int getCurrentMillis()
     {
-        return time;
+        return currentMillis;
     }
     
     public void animate(int dimensions) {
