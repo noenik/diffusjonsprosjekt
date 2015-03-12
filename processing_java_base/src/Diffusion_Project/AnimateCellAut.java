@@ -37,6 +37,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     int gridWidth;
     float time = 0;
     int runStopTime = 0;
+    int currentFrames = 0;
 
     boolean text = false;
     boolean stopAtEdge = false;
@@ -57,8 +58,8 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 
     @Override
     public void draw() {
-        time = frameCount / currentFrameRate;
-
+        time = currentFrames / currentFrameRate;
+        currentFrames++;
         if (runStopTime > 0 && runStopTime < time) {
             noLoop();
         }
@@ -266,6 +267,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         noLoop();
         list.clear();
         initiate();
+        currentFrames = 0;
     }
 
     /**
