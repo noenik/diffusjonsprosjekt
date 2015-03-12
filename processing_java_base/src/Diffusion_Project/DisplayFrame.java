@@ -36,6 +36,7 @@ public class DisplayFrame extends JFrame
     private final JButton Dim2Button;
     
     private final JToggleButton textToggle;
+    private final JCheckBox stopAtEdge;
     
     private final JLabel animateLabel;
     private final JLabel animateCellAutLabel;
@@ -65,6 +66,7 @@ public class DisplayFrame extends JFrame
         Dim2Button = new JButton("2 Dimensions");
         
         textToggle = new JToggleButton("Toggle text");
+        stopAtEdge = new JCheckBox("Stop at edge");
         
         animateLabel = new JLabel("2D agent based simulation:");
         animateCellAutLabel = new JLabel("2D cellular automaton based simulation:");
@@ -105,6 +107,7 @@ public class DisplayFrame extends JFrame
         this.add(animateLabel);
         this.add(animateCellAutLabel);
         this.add(textToggle);
+        this.add(stopAtEdge);
     }
     
     private void fixLayout()
@@ -128,6 +131,7 @@ public class DisplayFrame extends JFrame
         resetButtonCe.setBounds(600, 690, 100, 30);
         
         textToggle.setBounds(850, 600, 100, 30);
+        stopAtEdge.setBounds(1000, 600, 100, 30);
         
         animateLabel.setBounds(22, 10, 500, 20);
         animateCellAutLabel.setBounds(730, 10, 500, 20);
@@ -168,6 +172,7 @@ public class DisplayFrame extends JFrame
         Dim2Button.setActionCommand( "2d" );
 
         textToggle.addChangeListener(animateCellAut);
+        stopAtEdge.addItemListener(animateCellAut);
         
         speedSlider.addChangeListener(animate);
     }

@@ -7,13 +7,15 @@ package Diffusion_Project;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+//import javax.swing.JLabel;
+//import javax.swing.JOptionPane;
+//import javax.swing.JPanel;
+//import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import processing.core.PApplet;
@@ -22,7 +24,7 @@ import processing.core.PApplet;
  *
  * @author nikla_000
  */
-public class AnimateCellAut extends PApplet implements ActionListener, ChangeListener {
+public class AnimateCellAut extends PApplet implements ActionListener, ChangeListener, ItemListener {
 
     ArrayList<Square> list = new ArrayList<>();
     Random rand = new Random();
@@ -35,6 +37,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     int gridWidth;
 
     boolean text = false;
+    boolean stopAtEdge = false;
 
     float diffusionFactor = (float) 0.5;
     ArrayList<Integer> pPerCol;
@@ -71,7 +74,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             }
 
             for (int p = 0; p < particles; p++) {
-                if(!text) {
+                if (!text) {
                     set((int) random(xi + 1, xe - 1), (int) random(yi + 1, ye - 1), color(255, 0, 0));
                 }
 //                fill(255, 0, 0);
@@ -82,6 +85,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             }
             int col = r.getCol();
             int row = r.getRow();
+
+            if (stopAtEdge && (col == 0 || row == 0 || col == cellXCount || row == cellXCount) && particles > 0) {
+                noLoop();
+            }
+
             pPerCol.set(col, pPerCol.get(col) + particles);
             pPerRow.set(row, pPerRow.get(row) + particles);
 
@@ -118,6 +126,9 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
      * to the middle one.
      */
     private void initiate() {
+        pPerCol = new ArrayList<>();
+        pPerRow = new ArrayList<>();
+
         gridWidth = cellXCount * cellSize;
 
         int rowCount = 0;
@@ -132,20 +143,17 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
                 }
                 colCount++;
             }
+            pPerCol.add(0);
+            pPerRow.add(0);
             rowCount++;
         }
         for (Square r : list) {
             r.findNeighbors(list);
         }
 
-        pPerCol = new ArrayList<>();
-        pPerRow = new ArrayList<>();
-
-        for (int i = 0; i < cellXCount; i++) {
-            pPerCol.add(0);
-            pPerRow.add(0);
-        }
-
+//        for (int i = 0; i < cellXCount; i++) {
+//            
+//        }
         redraw();
     }
 
@@ -278,5 +286,10 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     @Override
     public void stateChanged(ChangeEvent e) {
         text = !text;
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        stopAtEdge = !stopAtEdge;
     }
 }
