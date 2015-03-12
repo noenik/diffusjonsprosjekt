@@ -14,13 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import processing.core.PApplet;
 
 /**
  *
  * @author nikla_000
  */
-public class AnimateCellAut extends PApplet implements ActionListener {
+public class AnimateCellAut extends PApplet implements ActionListener, ChangeListener {
 
     ArrayList<Square> list = new ArrayList<>();
     Random rand = new Random();
@@ -32,6 +34,8 @@ public class AnimateCellAut extends PApplet implements ActionListener {
     int cellSize = 40;
     int gridWidth;
 
+    boolean text = false;
+
     float diffusionFactor = (float) 0.5;
     ArrayList<Integer> pPerCol;
     ArrayList<Integer> pPerRow;
@@ -40,9 +44,6 @@ public class AnimateCellAut extends PApplet implements ActionListener {
     public void setup() {
         size(590, 550);
         frameRate(currentFrameRate);
-
-        pPerCol = new ArrayList<>(cellXCount);
-        pPerRow = new ArrayList<>(cellXCount);
 
         initiate();
         noLoop();
@@ -63,9 +64,16 @@ public class AnimateCellAut extends PApplet implements ActionListener {
             rect(xi, yi, cellSize, cellSize);
 
             int particles = r.getParticles();
-            for (int p = 0; p < particles; p++) {
-                set((int) random(xi + 1, xe - 1), (int) random(yi + 1, ye - 1), color(255, 0, 0));
 
+            if (text) {
+                fill(0);
+                text(particles, xi + 2, yi + (cellSize / 2));
+            }
+
+            for (int p = 0; p < particles; p++) {
+                if(!text) {
+                    set((int) random(xi + 1, xe - 1), (int) random(yi + 1, ye - 1), color(255, 0, 0));
+                }
 //                fill(255, 0, 0);
 //                ellipse((int) random(xi + 6, xe - 6), (int) random(yi + 6, ye - 6), 10, 10);
                 if ((frameCount % 10 == 0) && (random(1) <= 0.2)) {
@@ -116,7 +124,7 @@ public class AnimateCellAut extends PApplet implements ActionListener {
         for (int y = 0; y < gridWidth; y += cellSize) {
             int colCount = 0;
             for (int i = 0; i < gridWidth; i += cellSize) {
-                if (rowCount == 5 && colCount == 5) {
+                if (rowCount == (cellXCount / 2) && colCount == (cellXCount / 2)) {
                     init = new Square(colCount, rowCount, i, y, cellSize, initParticles, rand);
                     list.add(init);
                 } else {
@@ -130,10 +138,15 @@ public class AnimateCellAut extends PApplet implements ActionListener {
             r.findNeighbors(list);
         }
 
+        pPerCol = new ArrayList<>();
+        pPerRow = new ArrayList<>();
+
         for (int i = 0; i < cellXCount; i++) {
             pPerCol.add(0);
             pPerRow.add(0);
         }
+
+        redraw();
     }
 
     /**
@@ -155,35 +168,39 @@ public class AnimateCellAut extends PApplet implements ActionListener {
      */
     private void custom() {
         JPanel panel = new JPanel();
-        
+
         JTextField field = new JTextField(4);
         JTextField field2 = new JTextField(4);
         JTextField field3 = new JTextField(4);
+        JTextField field4 = new JTextField(4);
 
         Box box = Box.createVerticalBox();
+        Box box2 = Box.createHorizontalBox();
         panel.add(box);
 
-        box.add(new JLabel("Number of initial particles:"));
+        box.add(new JLabel("Number of initial particles:            "));
         box.add(field);
         box.add(Box.createVerticalStrut(10));
-        box.add(new JLabel("Diffusion coefficient:"));
+        box.add(new JLabel("Diffusion coefficient:            "));
         box.add(field2);
         box.add(Box.createVerticalStrut(20));
-        box.add(new JLabel("Cell Size:"));
-        box.add(field3);
+        box.add(box2);
+        box2.add(new JLabel("Cell Size: "));
+        box2.add(field3);
+        box2.add(Box.createHorizontalStrut(10));
+        box2.add(new JLabel("Number of cells: "));
+        box2.add(field4);
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Please fill the fields", JOptionPane.OK_CANCEL_OPTION);
         field.requestFocusInWindow();
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-            currentFrameRate = (float) (10 * Float.parseFloat(field2.getText()));
-            frameRate(currentFrameRate);
+                currentFrameRate = (float) (10 * Float.parseFloat(field2.getText()));
+                frameRate(currentFrameRate);
+            } catch (NumberFormatException ne) {
             }
-            catch(NumberFormatException ne) {
-//                System.out.println("Error: " + ne);
-            }
-            
+
             try {
                 int num = Integer.parseInt(field.getText());
 
@@ -191,7 +208,6 @@ public class AnimateCellAut extends PApplet implements ActionListener {
                 init.setParticles(num);
                 redraw();
             } catch (NumberFormatException ne) {
-//                System.out.println("Error: " + ne);
             }
 
             try {
@@ -199,7 +215,12 @@ public class AnimateCellAut extends PApplet implements ActionListener {
                 cellSize = cSize;
                 redraw();
             } catch (NumberFormatException ne) {
-//                System.out.println("Error: " + ne);
+            }
+
+            try {
+                int cellNum = Integer.parseInt(field4.getText());
+                cellXCount = cellNum;
+            } catch (NumberFormatException ne) {
             }
         }
     }
@@ -211,7 +232,6 @@ public class AnimateCellAut extends PApplet implements ActionListener {
         noLoop();
         list.clear();
         initiate();
-        redraw();
     }
 
     /**
@@ -253,5 +273,10 @@ public class AnimateCellAut extends PApplet implements ActionListener {
                 reset();
                 break;
         }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        text = !text;
     }
 }
