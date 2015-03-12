@@ -35,9 +35,12 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     int cellXCount = 11;
     int cellSize = 40;
     int gridWidth;
+    float time = 0;
+    int runStopTime = 0;
 
     boolean text = false;
     boolean stopAtEdge = false;
+    boolean showAsDots = false;
 
     float diffusionFactor = (float) 0.5;
     ArrayList<Integer> pPerCol;
@@ -54,6 +57,12 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 
     @Override
     public void draw() {
+        time = frameCount / currentFrameRate;
+
+        if (runStopTime > 0 && runStopTime < time) {
+            noLoop();
+        }
+
         background(238);
         int index = 0;
 
@@ -64,6 +73,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             float ye = r.getYmax();
 
             fill(255);
+            stroke(0);
             rect(xi, yi, cellSize, cellSize);
 
             int particles = r.getParticles();
@@ -74,11 +84,14 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             }
 
             for (int p = 0; p < particles; p++) {
-                if (!text) {
+                if (!text && !showAsDots) {
                     set((int) random(xi + 1, xe - 1), (int) random(yi + 1, ye - 1), color(255, 0, 0));
+                } else if (!text && showAsDots) {
+                    noStroke();
+                    fill(255, 0, 0);
+                    ellipse((int) random(xi + cellSize / 10, xe - cellSize / 10),
+                            (int) random(yi + cellSize / 10, ye - cellSize / 10), cellSize / 10, cellSize / 10);
                 }
-//                fill(255, 0, 0);
-//                ellipse((int) random(xi + 6, xe - 6), (int) random(yi + 6, ye - 6), 10, 10);
                 if ((frameCount % 10 == 0) && (random(1) <= 0.2)) {
                     moveParticle(index);
                 }
@@ -181,9 +194,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         JTextField field2 = new JTextField(4);
         JTextField field3 = new JTextField(4);
         JTextField field4 = new JTextField(4);
+        JTextField field5 = new JTextField(4);
 
         Box box = Box.createVerticalBox();
         Box box2 = Box.createHorizontalBox();
+        Box box3 = Box.createHorizontalBox();
         panel.add(box);
 
         box.add(new JLabel("Number of initial particles:            "));
@@ -198,6 +213,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         box2.add(Box.createHorizontalStrut(10));
         box2.add(new JLabel("Number of cells: "));
         box2.add(field4);
+        box.add(Box.createVerticalStrut(20));
+        box.add(box3);
+        box3.add(new JLabel("Set running time (s): "));
+        box3.add(field5);
+        box3.add(Box.createHorizontalStrut(100));
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Please fill the fields", JOptionPane.OK_CANCEL_OPTION);
         field.requestFocusInWindow();
@@ -230,6 +250,12 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
                 cellXCount = cellNum;
             } catch (NumberFormatException ne) {
             }
+
+            try {
+                int runTime = Integer.parseInt(field5.getText());
+                runStopTime = runTime;
+            } catch (NumberFormatException ne) {
+            }
         }
     }
 
@@ -258,6 +284,10 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         }
     }
 
+    public float getTime() {
+        return time;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -279,6 +309,9 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
                 break;
             case "reset":
                 reset();
+                break;
+            case "togglesize":
+                showAsDots = !showAsDots;
                 break;
         }
     }
