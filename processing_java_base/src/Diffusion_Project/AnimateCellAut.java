@@ -12,10 +12,6 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
-//import javax.swing.JLabel;
-//import javax.swing.JOptionPane;
-//import javax.swing.JPanel;
-//import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import processing.core.PApplet;
@@ -32,9 +28,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     float currentFrameRate = 10;
     int initParticles = 10000;
 
+    int cellYCount = 11;
     int cellXCount = 11;
     int cellSize = 40;
     int gridWidth;
+    int gridHeight;
     float time = 0;
     int runStopTime = 0;
     int currentFrames = 0;
@@ -43,9 +41,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     boolean stopAtEdge = false;
     boolean showAsDots = false;
 
-    float diffusionFactor = (float) 0.5;
+    float diffusionCoefficient = (float) 1 / 3;
     ArrayList<Integer> pPerCol;
     ArrayList<Integer> pPerRow;
+
+    SimType simType = SimType.ACTUAL;
 
     @Override
     public void setup() {
@@ -58,6 +58,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 
     @Override
     public void draw() {
+
         time = currentFrames / currentFrameRate;
         currentFrames++;
         if (runStopTime > 0 && runStopTime < time) {
@@ -65,6 +66,22 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         }
 
         background(238);
+
+        if (simType == SimType.ACTUAL) {
+            simActual();
+        } else {
+            simProbDist();
+        }
+
+        drawHist();
+
+        for (Square r : list) {
+            r.sum();
+        }
+    }
+
+    private void simActual() {
+
         int index = 0;
 
         for (Square r : list) {
@@ -93,14 +110,14 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
                     ellipse((int) random(xi + cellSize / 10, xe - cellSize / 10),
                             (int) random(yi + cellSize / 10, ye - cellSize / 10), cellSize / 10, cellSize / 10);
                 }
-                if ((frameCount % 10 == 0) && (random(1) <= 0.2)) {
+                if ((frameCount % currentFrameRate == 0) && random(1) < (2 * diffusionCoefficient)) {
                     moveParticle(index);
                 }
             }
             int col = r.getCol();
             int row = r.getRow();
 
-            if (stopAtEdge && (col == 0 || row == 0 || col == cellXCount || row == cellXCount) && particles > 0) {
+            if (stopAtEdge && (col == 0 || row == 0 || col == cellXCount || row == cellYCount) && particles > 0) {
                 noLoop();
             }
 
@@ -111,28 +128,89 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 
         }
 
-        int aIndex = 0;
-        for (int iNum = 0; iNum < (cellXCount * cellSize); iNum += cellSize) {
+    }
 
-            double colFactor = (double) pPerCol.get(aIndex) / initParticles;
-            double rowFactor = (double) pPerRow.get(aIndex) / initParticles;
+    private void simProbDist() {
 
-            float xCoord = (float) (width - (200 * rowFactor));
-            float yCoord = (float) (height - (200 * colFactor));
+        for (Square s : list) {
 
-            fill(255, 0, 0);
-            rect(iNum, yCoord, cellSize, (float) (200 * colFactor));
-            rect(xCoord, iNum, (float) (200 * rowFactor), cellSize);
+            float xi = s.getXinit();
+            float yi = s.getYinit();
 
-            pPerCol.set(aIndex, 0);
-            pPerRow.set(aIndex, 0);
+            int particles = s.getParticles();
 
-            aIndex++;
+            fill(255);
+            stroke(0);
+            rect(xi, yi, cellSize, cellSize);
+
+            if (frameCount % currentFrameRate == 0) {
+                int particlesNotMoving = (int) (particles * (2 * diffusionCoefficient));
+                int particlesMoving = particles - particlesNotMoving;
+
+                ArrayList<Square> neighbors = s.getNeighbors();
+                int numOfNeighbors = neighbors.size();
+
+                for (Square neighbor : neighbors) {
+
+                    neighbor.addP(particlesMoving / numOfNeighbors);
+
+                }
+
+                s.subP(particlesMoving);
+
+            }
+
+            fill(0);
+            text(particles, xi + 2, yi + (cellSize / 2));
+
+            int col = s.getCol();
+            int row = s.getRow();
+
+            pPerCol.set(col, pPerCol.get(col) + particles);
+            pPerRow.set(row, pPerRow.get(row) + particles);
+
         }
 
-        for (Square r : list) {
-            r.sum();
+    }
+
+    /**
+     * Draws a histogram representing the amount of particles in each column and
+     * row.
+     */
+    private void drawHist() {
+
+        if (cellXCount > 1) {
+            int aIndex = 0;
+            for (int iNum = 0; iNum < (cellXCount * cellSize); iNum += cellSize) {
+
+                double colFactor = (double) pPerCol.get(aIndex) / initParticles;
+                float yCoord = (float) (height - (200 * colFactor));
+
+                fill(255, 0, 0);
+                rect(iNum, yCoord, cellSize, (float) (200 * colFactor));
+
+                pPerCol.set(aIndex, 0);
+
+                aIndex++;
+            }
         }
+
+        if (cellYCount > 1) {
+            int bIndex = 0;
+            for (int yNum = 0; yNum < (cellYCount * cellSize); yNum += cellSize) {
+
+                double rowFactor = (double) pPerRow.get(bIndex) / initParticles;
+                float xCoord = (float) (width - (200 * rowFactor));
+
+                fill(255, 0, 0);
+                rect(xCoord, yNum, (float) (200 * rowFactor), cellSize);
+
+                pPerRow.set(bIndex, 0);
+
+                bIndex++;
+            }
+        }
+
     }
 
     /**
@@ -144,20 +222,21 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         pPerRow = new ArrayList<>();
 
         gridWidth = cellXCount * cellSize;
+        gridHeight = cellYCount * cellSize;
 
         int rowCount = 0;
-        for (int y = 0; y < gridWidth; y += cellSize) {
+        for (int y = 0; y < gridHeight; y += cellSize) {
             int colCount = 0;
             for (int i = 0; i < gridWidth; i += cellSize) {
-                if (rowCount == (cellXCount / 2) && colCount == (cellXCount / 2)) {
+                if (rowCount == (cellYCount / 2) && colCount == (cellXCount / 2)) {
                     init = new Square(colCount, rowCount, i, y, cellSize, initParticles, rand);
                     list.add(init);
                 } else {
                     list.add(new Square(colCount, rowCount, i, y, cellSize, 0, rand));
                 }
                 colCount++;
+                pPerCol.add(0);
             }
-            pPerCol.add(0);
             pPerRow.add(0);
             rowCount++;
         }
@@ -195,26 +274,32 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
         JTextField field2 = new JTextField(4);
         JTextField field3 = new JTextField(4);
         JTextField field4 = new JTextField(4);
+        JTextField field6 = new JTextField(4);
         JTextField field5 = new JTextField(4);
 
         Box box = Box.createVerticalBox();
         Box box2 = Box.createHorizontalBox();
         Box box3 = Box.createHorizontalBox();
+        Box box4 = Box.createHorizontalBox();
         panel.add(box);
 
-        box.add(new JLabel("Number of initial particles:            "));
-        box.add(field);
-        box.add(Box.createVerticalStrut(10));
-        box.add(new JLabel("Diffusion coefficient:            "));
-        box.add(field2);
-        box.add(Box.createVerticalStrut(20));
+        box.add(box4);
+        box4.add(new JLabel("Particles:  "));
+        box4.add(field);
+        box4.add(Box.createHorizontalStrut(10));
+        box4.add(new JLabel("Diff coefficient:  "));
+        box4.add(field2);
+        box.add(Box.createVerticalStrut(40));
         box.add(box2);
         box2.add(new JLabel("Cell Size: "));
         box2.add(field3);
         box2.add(Box.createHorizontalStrut(10));
-        box2.add(new JLabel("Number of cells: "));
+        box2.add(new JLabel("X cells: "));
         box2.add(field4);
-        box.add(Box.createVerticalStrut(20));
+        box2.add(Box.createHorizontalStrut(10));
+        box2.add(new JLabel("Y cells: "));
+        box2.add(field6);
+        box.add(Box.createVerticalStrut(40));
         box.add(box3);
         box3.add(new JLabel("Set running time (s): "));
         box3.add(field5);
@@ -225,8 +310,8 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 
         if (result == JOptionPane.OK_OPTION) {
             try {
-                currentFrameRate = (float) (10 * Float.parseFloat(field2.getText()));
-                frameRate(currentFrameRate);
+                diffusionCoefficient = Float.parseFloat(field2.getText());
+                System.out.println(diffusionCoefficient);
             } catch (NumberFormatException ne) {
             }
 
@@ -249,6 +334,12 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             try {
                 int cellNum = Integer.parseInt(field4.getText());
                 cellXCount = cellNum;
+            } catch (NumberFormatException ne) {
+            }
+
+            try {
+                int cellNum = Integer.parseInt(field6.getText());
+                cellYCount = cellNum;
             } catch (NumberFormatException ne) {
             }
 
@@ -315,6 +406,15 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             case "togglesize":
                 showAsDots = !showAsDots;
                 break;
+            case "probDist":
+                if (wantToReset()) {
+                    if (simType == SimType.ACTUAL) {
+                        simType = SimType.PROBDIST;
+                    } else {
+                        simType = SimType.ACTUAL;
+                    }
+                    reset();
+                }
         }
     }
 
@@ -326,5 +426,11 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     @Override
     public void itemStateChanged(ItemEvent e) {
         stopAtEdge = !stopAtEdge;
+    }
+
+    public static enum SimType {
+
+        ACTUAL, PROBDIST;
+
     }
 }

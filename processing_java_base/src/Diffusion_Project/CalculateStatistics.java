@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Ramin on 03.03.2015.
  */
-public class CalclateStatistics
+public class CalculateStatistics
 {
     private int squaredDistance1D;
     private int numberOfStepsIn2D;
@@ -25,7 +25,7 @@ public class CalclateStatistics
 
     private Particle particle;
 
-    public CalclateStatistics()
+    public CalculateStatistics()
     {
         animate = new Animate();
         particle = new Particle();

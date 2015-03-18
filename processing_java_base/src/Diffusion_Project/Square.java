@@ -31,7 +31,6 @@ public class Square {
         this.row = row;
         this.particles = particles;
         this.rand = rand;
-
     }
 
     float getXinit() {

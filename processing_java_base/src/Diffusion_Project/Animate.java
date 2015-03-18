@@ -18,7 +18,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
 
     Particle particle1;
 
-    CalclateStatistics calclateStatistics;
+    CalculateStatistics calclateStatistics;
 
     ArrayList<Particle> particles;
     Random rand = new Random();
@@ -42,7 +42,7 @@ public class Animate extends PApplet implements ActionListener, ChangeListener {
         particles = new ArrayList<Particle>();
 
 
-        calclateStatistics = new CalclateStatistics();
+        calclateStatistics = new CalculateStatistics();
 
         frameRate( 10 );
         noLoop();
