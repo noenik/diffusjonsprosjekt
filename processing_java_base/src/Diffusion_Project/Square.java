@@ -19,6 +19,7 @@ public class Square {
 
     private int particles;
     private int particlesMoved;
+    private int layerNum;
 
     ArrayList<Square> neighbors = new ArrayList<>();
 
@@ -55,6 +56,14 @@ public class Square {
 
     public int getRow() {
         return row;
+    }
+    
+    public int getLayerNum() {
+        return layerNum;
+    }
+    
+    public void setLayerNum(int layerNum) {
+        this.layerNum = layerNum;
     }
 
     int getParticles() {

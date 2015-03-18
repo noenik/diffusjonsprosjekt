@@ -14,7 +14,7 @@ import javax.swing.*;
 public class DisplayFrame extends JFrame
 {
     // Declare components
-
+    private final CellAutPanel cellAut;
     
     private final JTabbedPane tabbedPane;
 
@@ -28,11 +28,14 @@ public class DisplayFrame extends JFrame
         
         // Initiate variables
         tabbedPane = new JTabbedPane();
+        cellAut = new CellAutPanel();
         
-        tabbedPane.addTab("Cellular Automaton", new CellAutPanel());
+        tabbedPane.addTab("Cellular Automaton", cellAut);
         tabbedPane.addTab("Agent based", new AnimatePanel());
         add(tabbedPane);
 
         this.setVisible( true );
+        
+        cellAut.keepTime();
     }
 }

@@ -31,6 +31,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
     int cellYCount = 11;
     int cellXCount = 11;
     int cellSize = 40;
+    int layers;
     int gridWidth;
     int gridHeight;
     float time = 0;
@@ -95,7 +96,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             rect(xi, yi, cellSize, cellSize);
 
             int particles = r.getParticles();
-
+            
             if (text) {
                 fill(0);
                 text(particles, xi + 2, yi + (cellSize / 2));
@@ -144,19 +145,20 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             rect(xi, yi, cellSize, cellSize);
 
             if (frameCount % currentFrameRate == 0) {
-                int particlesNotMoving = (int) (particles * (2 * diffusionCoefficient));
-                int particlesMoving = particles - particlesNotMoving;
+                int particlesMoving = (int) (particles * (2 * diffusionCoefficient));
 
                 ArrayList<Square> neighbors = s.getNeighbors();
                 int numOfNeighbors = neighbors.size();
 
+                int actualParticlesMoving = particlesMoving / numOfNeighbors;
+
                 for (Square neighbor : neighbors) {
 
-                    neighbor.addP(particlesMoving / numOfNeighbors);
+//                    System.out.println("P: " + particles + " Particles moving " + particlesMoving + " Move: " + (particlesMoving / numOfNeighbors));
+                    neighbor.addP(actualParticlesMoving);
 
                 }
-
-                s.subP(particlesMoving);
+                s.subP(actualParticlesMoving * numOfNeighbors);
 
             }
 
@@ -169,10 +171,73 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
             pPerCol.set(col, pPerCol.get(col) + particles);
             pPerRow.set(row, pPerRow.get(row) + particles);
 
+            if (stopAtEdge && (col == 0 || row == 0 || col == cellXCount || row == cellYCount) && particles > 0) {
+                noLoop();
+            }
+
         }
 
     }
-
+    
+    private void determineLayers() {
+        
+        int colMin = 0;
+        int rowMin = 0;
+        int col = cellXCount - 1;
+        int row = cellYCount - 1;
+        layers = (cellXCount/2) + 1;
+        
+        for(int i = layers - 1; i >= 0; i--) {
+            
+            for(Square cell : list) {
+                
+                int cellCol = cell.getCol();
+                int cellRow = cell.getRow();
+                
+                if((cellCol >= colMin && cellCol <= col) 
+                        && (cellRow >= rowMin && cellRow <= row)) {
+                    cell.setLayerNum(i);
+                }
+                
+            }
+            
+            colMin++;
+            rowMin++;
+            row--;
+            col--;
+            
+        }
+        
+    }
+    
+    private void squareDistMean() {
+        
+        int totalDistance = 0;
+        
+        for(int i = 0; i < layers; i++) {
+            
+            int particlesInLayer = 0;
+            
+            for(Square cell : list) {
+                
+                if(cell.getLayerNum() == i) {
+                    
+                    particlesInLayer += cell.getParticles();
+                    
+                }
+                
+            }
+            
+            totalDistance += particlesInLayer * Math.pow(i, 2);
+            
+        }
+        
+        float meanSquareDist = (float) totalDistance/initParticles;
+        
+        System.out.println("Total distance: " + totalDistance + " Mean sq dist: " + meanSquareDist);
+        
+    }
+    
     /**
      * Draws a histogram representing the amount of particles in each column and
      * row.
@@ -247,6 +312,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
 //        for (int i = 0; i < cellXCount; i++) {
 //            
 //        }
+        determineLayers();
         redraw();
     }
 
@@ -389,6 +455,7 @@ public class AnimateCellAut extends PApplet implements ActionListener, ChangeLis
                 break;
             case "stop":
                 noLoop();
+                squareDistMean();
                 break;
             case "customize":
                 noLoop();

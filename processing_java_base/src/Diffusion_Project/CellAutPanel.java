@@ -119,7 +119,7 @@ public class CellAutPanel extends JPanel {
         stopAtEdge.addItemListener(animateCellAut);
     }
 
-    private void keepTime() {
+    public void keepTime() {
         while (true) {
             float time = animateCellAut.getTime();
 
